@@ -9,39 +9,22 @@ fn main() {
     let output = File::create("output.c").expect("Unable to create output.c file!");
     let mut writer = BufWriter::new(output);
 
-    writer.write_all("#include <stdio.h>\n\
-        #include <stdlib.h>\n
-        \n\
-        int main(void) {\n".as_bytes()).unwrap();
+    writer.write_all("#include <stdio.h>
+#include <stdlib.h>
+
+int main(void) {
+".as_bytes()).unwrap();
     for line in reader.lines() {
         writer.write_all(format!("\tsystem(\"{}\");\n", line.unwrap()).as_bytes()).unwrap();
     }
 
     writer.write_all("\treturn EXIT_SUCCESS;\n}\n".as_bytes()).unwrap();
-    /*
-    let output = Command::new("gcc")
+
+    Command::new("gcc")
         .args(&[
             "output.c",
             "-O3",
             "-Wall"])
-        .output();
-    match output {
-        Ok(o) => println!("Output: {}\nScript successfully compiled!", get_command_output(o)),
-        Err(e) => {
-            println!("Failed to compile! Check if gcc is installed on your system!\nError: {}", e.to_string());
-            exit(1);
-        },
-    }
-     */
+        .spawn()
+        .expect("GCC execution failed");
 }
-
-/*
-fn get_command_output(out: Output) -> String {
-    let stream = if out.status.success() {
-        out.stdout
-    } else {
-        out.stderr
-    };
-    String::from_utf8(stream).unwrap()
-}
-*/
