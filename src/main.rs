@@ -1,5 +1,5 @@
 use std::fs::File;
-use std::process::{exit, Command, Output};
+use std::process::Command;
 use std::io::{BufReader, BufRead, BufWriter, Write};
 
 fn main() {
@@ -21,10 +21,8 @@ int main(void) {
     writer.write_all("\treturn EXIT_SUCCESS;\n}\n".as_bytes()).unwrap();
 
     Command::new("gcc")
-        .args(&[
-            "output.c",
-            "-O3",
-            "-Wall"])
+        .arg("output.c")
+        .arg("-O3")
         .spawn()
         .expect("GCC execution failed");
 }
