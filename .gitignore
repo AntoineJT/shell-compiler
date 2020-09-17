@@ -1,5 +1,5 @@
 /.idea/
 /target/
-/a.exe
-/input.sh
-/output.c
+/*.exe
+/*.sh
+/*.c
