@@ -68,30 +68,6 @@ struct Filename {
 }
 
 impl Filename {
-    /*
-    fn reverse_filename(&mut self) {
-        let mut new_value = String::with_capacity(self.fname.len());
-        for _ in self.fname.len() {
-            new_value.push(self.fname.pop().unwrap())
-        }
-        self.fname = new_value
-    }
-     */
-
-    /*
-    fn remove_extension_mut(&mut self) {
-        if !self.fname.contains('.') {
-            return
-        }
-        loop {
-            let c = self.fname.pop().unwrap();
-            if c == '.' {
-                break
-            }
-        }
-    }
-    */
-
     fn remove_extension(&self) -> Filename {
         let mut fname = self.fname.clone();
         if !self.fname.contains('.') {
@@ -105,23 +81,6 @@ impl Filename {
         }
         Filename { fname }
     }
-
-    /*
-    fn add_binary_extension_mut(&mut self) {
-        if cfg!(windows) {
-            self.fname.push_str(".exe");
-            return
-        }
-        if cfg!(linux) {
-            return
-        }
-        else
-        {
-            eprintln!("Platform not supported for now. \
-            Generated file, if supported by the compiler, will not have any extension.")
-        }
-    }
-    */
 
     fn add_binary_extension(&self) -> Filename {
         let mut fname = self.fname.clone();
