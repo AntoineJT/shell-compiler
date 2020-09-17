@@ -19,6 +19,7 @@ int main(void) {
     }
 
     writer.write_all("\treturn EXIT_SUCCESS;\n}\n".as_bytes()).unwrap();
+    writer.flush().unwrap();
 
     Command::new("gcc")
         .arg("output.c")
