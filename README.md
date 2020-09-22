@@ -44,3 +44,8 @@ That's pretty much it too.
 
 ### Compiling
 To compile it, simply go to the root directory and run `cargo build --release`.
+
+## License
+Copyright (c) Antoine James Tournepiche. All rights reserved.
+
+Licensed under the [MIT License](LICENSE).
