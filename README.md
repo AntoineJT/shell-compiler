@@ -22,6 +22,8 @@ Please be sure to understand what you are compiling before to do so.
 
 This is an experimental thing, not a production ready one. **Use it at your own risks.**
 
+**Basically, if your script is just an ordered bunch of independent tasks, it should work fine**.
+
 ## How to use it?
 ### Prerequisites
 To use this program, you need:
