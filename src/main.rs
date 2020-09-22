@@ -3,7 +3,6 @@ use std::process::{Command, exit};
 use std::io::{BufReader, BufRead, BufWriter, Write};
 use std::env;
 
-// TODO Instead of compiling in C, pack the original file in a binary one which will run it
 fn main() {
     let args: Vec<String> = env::args().collect();
     if args.len() == 1 {
@@ -13,15 +12,17 @@ Format: {} <input_file> [output_no_ext]", &args[0]);
     }
 
     let script_name = &args[1];
-    let c_name = &if args.len() == 3 {
+    let c_name = if args.len() == 3 {
         args[2].clone()
     } else {
         let filename = Filename { fname: String::from(script_name) }.remove_extension();
-        format!("{}.c", filename.to_string())
+        String::from(filename.filename())
     };
+    let c_name = format!("{}.c", c_name);
 
-    generate_c_code(script_name, c_name);
-    compile_with_gcc(c_name);
+    generate_c_code(script_name, &c_name);
+    let c_fname = Filename { fname: c_name };
+    compile_with_gcc(c_fname);
 }
 
 fn generate_c_code(input: &str, output: &str) {
@@ -55,10 +56,14 @@ int main(void) {
     writer.flush().unwrap();
 }
 
-fn compile_with_gcc(input: &str) {
+fn compile_with_gcc(input: Filename) {
+    let out = input.remove_extension().add_binary_extension();
+    let out = out.filename();
     Command::new("gcc")
-        .arg(input)
+        .arg(input.filename())
         .arg("-O3")
+        .arg("-o")
+        .arg(out)
         .spawn()
         .expect("GCC execution failed");
 }
@@ -96,7 +101,7 @@ impl Filename {
         Filename { fname }
     }
 
-    fn to_string(&self) -> &str {
+    fn filename(&self) -> &str {
         &self.fname
     }
 }
