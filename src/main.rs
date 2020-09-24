@@ -15,7 +15,7 @@ Format: {} <input_file> [output_no_ext]", &args[0]);
     let c_name = if args.len() == 3 {
         args[2].clone()
     } else {
-        let filename = Filename { fname: String::from(script_name) }.remove_extension();
+        let filename = Filename { fname: script_name.clone() }.remove_extension();
         String::from(filename.filename())
     };
     let c_name = format!("{}.c", c_name);
@@ -41,7 +41,7 @@ int main(void) {
 ".as_bytes()).unwrap();
     for line in reader.lines() {
         let line = line.unwrap();
-        let line = &line.trim();
+        let line = line.trim();
         // TODO Find a way to handle heredocs, meanwhile, at least print an error when found one
         if line.is_empty()  // empty lines
             || line.starts_with("#") // bash comments
